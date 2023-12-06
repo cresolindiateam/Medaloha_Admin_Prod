@@ -1,0 +1,94 @@
+<html>
+<head>
+<script language="javascript">
+function printdiv(printpage)
+{
+var headstr = "<html><head><title></title></head><body>";
+var footstr = "</body>";
+var newstr = document.all.item(printpage).innerHTML;
+var oldstr = document.body.innerHTML;
+document.body.innerHTML = headstr+newstr+footstr;
+window.print();
+document.body.innerHTML = oldstr;
+return false;
+}
+</script>
+<title>div print</title>
+
+<style type="text/css">
+  body {
+  background: rgb(204,204,204); 
+}
+
+@media print {  
+  @page {
+   
+   size: Envelope B6 ;
+       }
+  table {
+    vertical-align: middle;
+  } 
+
+    *{
+  padding: 0px;
+  margin: 0px;
+}
+}
+</style>
+</head>
+
+
+<body>
+//HTML Page
+//Other content you wouldn't like to print
+<input name="b_print" type="button" class="ipt"   onClick="printdiv('div_print');" value=" Print ">
+
+
+<div id="div_print" >
+
+
+<div  >
+          <center>
+          <div >Job Sheet</div>
+          <h2>
+          <b>PRATEEK MOBILE</b>
+          <br/>
+          <small>Second floor rajeev Plaza</small><br/>
+          <small>jayendra ganj lashkar gwalior</small><br/>
+          <small>9755669222, 7354995571</small><br/>
+          </h2>
+          <hr/>
+          
+          <table align="center" >
+            <tr><td class="printHeading"><b>Date: </b></td> <td id="date1" class="printHeading">000-00-00 00:00:00</td></tr>
+            <tr><td class="printHeading"><b>Job No: </b></td> <td id="caseid1" class="printHeading">fgnfg</td></tr>
+            <tr><td class="printHeading"><b>Name: </b></td> <td id="name1" class="printHeading">fgnfgn</td></tr>
+            <tr><td class="printHeading"><b>Address: </b></td> <td id="address1" class="printHeading">fgnfg</td></tr>
+            <tr><td class="printHeading"><b>Mobile: </b></td> <td id="mobile1" class="printHeading">fgnfg</td></tr>
+            <tr><td class="printHeading"><b>Brand: </b></td> <td id="brand1" class="printHeading">fgnfgn</td></tr>
+            <tr><td class="printHeading"><b>Model: </b></td> <td id="model1" class="printHeading">fgsfg</td></tr>
+            <tr><td class="printHeading"><b>IMEI Number: </b></td> <td id="imei_number1" class="printHeading">75375732</td></tr>
+            <tr><td class="printHeading"><b>Problem: </b></td> <td id="problem1" class="printHeading">fgjdfgdfg</td></tr>
+            <tr><td class="printHeading"><b>Amount: </b></td> <td id="totalAmount1" class="printHeading">535</td></tr>
+            <tr><td class="printHeading"><b>Assessories: </b></td> <td id="assessories1" class="printHeading">dfgdg</td></tr>
+          </table>
+          
+          <hr/>
+          <div>T & C : NO Responsibility of data lost during service all Subject To Gwalior jurisdiction </div>
+          </center>
+          <!-- <div>Exe Name</div> -->
+          <div>
+
+            <h5 class="pull-right">Customer's Signature</h5>
+          </div>
+
+        </div>
+
+
+</div>
+//Other content you wouldn't like to print
+//Other content you wouldn't like to print
+</body>
+
+
+</html>

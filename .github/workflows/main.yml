@@ -3,7 +3,7 @@ name: PHP CI/CD Workflow
 on:
   push:
     branches:
-      - prod
+      - dev
       
 
 jobs:
@@ -21,14 +21,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: FTP Deploy Action To prod
+      - name: FTP Deploy Action To dev
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
-          if: "github.event_name == 'push' && github.ref == 'refs/heads/prod'"
-          server: ${{ secrets.MEDA_ADMIN_FTP_SERVER }}
-          username: ${{ secrets.MEDA_ADMIN_FTP_USER }}
-          password: ${{ secrets.MEDA_ADMIN_FTP_PASSWORD }}
+          if: "github.event_name == 'push' && github.ref == 'refs/heads/dev'"
+          server: ${{ secrets.DEV_MEDALOHA_ADMIN_FTP_SERVER }}
+          username: ${{ secrets.DEV_MEDALOHA_ADMIN_FTP_USER }}
+          password: ${{ secrets.DEV_MEDALOHA_ADMIN_FTP_PASSWORD }}
           local-dir: ./  # If your whole repo should be uploaded
-          server-dir: /  # Your FTP path
+          server-dir: /devmedaadmin/  # Your FTP path
 
  
