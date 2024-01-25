@@ -165,11 +165,11 @@ $datareview = $exeAdmin->fetch_all(MYSQLI_ASSOC);
           $mail->Host = 'smtp.gmail.com';
           $mail->Mailer = "smtp";
           $mail->SMTPAuth = true;
-          $mail->Username = 'ajay@cresol.in';
-          $mail->Password = 'petipa@#$';
+          $mail->Username = 'cresoluser@gmail.com';
+          $mail->Password = 'gbhrsgnkuxevramp';
           $mail->SMTPSecure = 'tls';
           $mail->Port = 587;
-          $mail->setFrom('ajay@cresol.in', 'Medaloha Admin');
+          $mail->setFrom('cresoluser@gmail.com', 'Medaloha Admin');
           $mail->addAddress($recemail);
           $mail->isHTML(true);
           $mail->Subject = 'Your Account Has been Approved BY Admin Now You Can Login Your Account';
@@ -179,16 +179,16 @@ $datareview = $exeAdmin->fetch_all(MYSQLI_ASSOC);
           <body>
             <h1>Thanks you for joining with us!</h1>
             Hello Specialist, i am here to Inform that  Your Profile has been Approved Successfully
-            Now You Can Join With Us. Plase Login Your Account
+            Now You Can Join With Us. Please Login Your Account
             <table cellspacing="0" style="border: 2px dashed #FB4314; width: 100%;">
               <tr>
                 <th>Name:</th><td>Medaloha Admin</td>
               </tr>
               <tr style="background-color: #e0e0e0;">
-                <th>Email:ajay@cresol.in</th><td></td>
+                <th>Email:</th><td>cresoluser@gmail.com</td>
               </tr>
               <tr>
-                <th>Website:</th><td><a href="#">Medaloha Admin</a></td>
+                <th>Website:</th><td><a href="https://medalohaadmin.cresol.in/">Medaloha Admin</a></td>
               </tr>
             </table>
           </body>
@@ -215,11 +215,11 @@ $datareview = $exeAdmin->fetch_all(MYSQLI_ASSOC);
         $mail->Host = 'smtp.gmail.com';
         $mail->Mailer = "smtp";
         $mail->SMTPAuth = true;
-        $mail->Username = 'ajay@cresol.in';
-        $mail->Password = 'petipa@#$';
+        $mail->Username = 'cresoluser@gmail.com';
+        $mail->Password = 'gbhrsgnkuxevramp';
         $mail->SMTPSecure = 'tls';
         $mail->Port = 587;
-        $mail->setFrom('ajay@cresol.in', 'Medaloha Admin');
+        $mail->setFrom('cresoluser@gmail.com', 'Medaloha Admin');
         $mail->addAddress($recemail);
         $mail->isHTML(true);
         $mail->Subject = 'Your Account Has been Disapproved BY Admin Now You Cant Login Your Account';
@@ -234,10 +234,10 @@ $datareview = $exeAdmin->fetch_all(MYSQLI_ASSOC);
               <th>Name:</th><td>Medaloha Admin</td>
             </tr>
             <tr style="background-color: #e0e0e0;">
-              <th>Email:ajay@cresol.in</th><td></td>
+              <th>Email:</th><td>cresoluser@gmail.com</td>
             </tr>
             <tr>
-              <th>Website:</th><td><a href="#">Medaloha Admin</a></td>
+              <th>Website:</th><td><a href="http://medalohaadmin.cresol.in/">Medaloha Admin</a></td>
             </tr>
           </table>
         </body>

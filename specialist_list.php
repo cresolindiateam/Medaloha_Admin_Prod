@@ -21,14 +21,14 @@ $mail->isSMTP();                      // Set mailer to use SMTP
 $mail->Host = 'smtp.gmail.com';   // Specify main and backup SMTP servers
 $mail->Mailer = "smtp";
 $mail->SMTPAuth = true;               // Enable SMTP authentication
-$mail->Username = 'ajay@cresol.in';   // SMTP username
-$mail->Password = 'petipa@#$';   // SMTP password
+$mail->Username = 'cresoluser@gmail.com';   // SMTP username
+$mail->Password = 'gbhrsgnkuxevramp';   // SMTP password
 
 
 $mail->SMTPSecure = 'tls';   // Enable TLS encryption, `ssl` also accepted
 $mail->Port = 587;                    // TCP port to connect to
 // Sender info
-$mail->setFrom('ajay@cresol.in', 'Medaloha Admin');
+$mail->setFrom('cresoluser@gmail.com', 'Medaloha Admin');
 // Add a recipient
 $mail->addAddress($recemail);
 // Set email format to HTML
@@ -50,10 +50,10 @@ $bodyContent = '
         <th>Name:</th><td>Medaloha Admin</td>
       </tr>
       <tr style="background-color: #e0e0e0;">
-        <th>Email:'.$recemail.'</th><td></td>
+        <th>Email:</th><td>'.$recemail.'</td>
       </tr>
       <tr>
-        <th>Website:</th><td><a href="#">Medaloha Admin</a></td>
+        <th>Website:</th><td><a href="https://medalohaadmin.cresol.in/">Medaloha Admin</a></td>
       </tr>
     </table>
   </body>
@@ -115,12 +115,12 @@ $mail->isSMTP();
 $mail->Host = 'smtp.gmail.com';
 $mail->Mailer = "smtp";
 $mail->SMTPAuth = true;
-$mail->Username = 'ajay@cresol.in';
-$mail->Password = 'petipa@#$';
+$mail->Username = 'cresoluser@gmail.com';
+$mail->Password = 'gbhrsgnkuxevramp';
 
 $mail->SMTPSecure = 'tls';
 $mail->Port = 587;
-$mail->setFrom('ajay@cresol.in', 'Medaloha Admin');
+$mail->setFrom('cresoluser@gmail.com', 'Medaloha Admin');
 $mail->addAddress($recemail);
 $mail->isHTML(true);
 $mail->Subject = 'Your Account Has been Approved BY Admin Now You Can Login Your Account';
@@ -136,10 +136,10 @@ $bodyContent = '
       <th>Name:</th><td>Medaloha Admin</td>
     </tr>
     <tr style="background-color: #e0e0e0;">
-      <th>Email:'.$recemail.'</th><td></td>
+      <th>Email:</th><td>'.$recemail.'</td>
     </tr>
     <tr>
-      <th>Website:</th><td><a href="#">Medaloha Admin</a></td>
+      <th>Website:</th><td><a href="http://medalohaadmin.cresol.in/">Medaloha Admin</a></td>
     </tr>
   </table>
 </body>
@@ -164,13 +164,13 @@ $mail->isSMTP();
 $mail->Host = 'smtp.gmail.com';
 $mail->Mailer = "smtp";
 $mail->SMTPAuth = true;
-$mail->Username = 'ajay@cresol.in';
-$mail->Password = 'petipa@#$';
+$mail->Username = 'cresoluser@gmail.com';
+$mail->Password = 'gbhrsgnkuxevramp';
 
 
 $mail->SMTPSecure = 'tls';
 $mail->Port = 587;
-$mail->setFrom('ajay@cresol.in', 'Medaloha Admin');
+$mail->setFrom('cresoluser@gmail.com', 'Medaloha Admin');
 $mail->addAddress($recemail);
 $mail->isHTML(true);
 $mail->Subject = 'Your Account Has been Disapproved BY Admin Now You Cant Login Your Account';
@@ -187,10 +187,10 @@ Hello Specialist, i am here to Inform that  Your Profile has been Disapproved Su
     <th>Name:</th><td>Medaloha Admin</td>
   </tr>
   <tr style="background-color: #e0e0e0;">
-    <th>Email:'.$recemail.'</th><td></td>
+    <th>Email:</th><td>'.$recemail.'</td>
   </tr>
   <tr>
-    <th>Website:</th><td><a href="#">Medaloha Admin</a></td>
+    <th>Website:</th><td><a href="http://medalohaadmin.cresol.in/">Medaloha Admin</a></td>
   </tr>
 </table>
 </body>
