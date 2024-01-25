@@ -1,4 +1,9 @@
 <?php
+
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
+
 require 'dbconfig.php';
 require 'function.php';
 $fullurl = "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
@@ -12,32 +17,32 @@ $db=db_connect();
 $case_array = array();
 
 
-  $sql = "SELECT now() as now,DATE_ADD(booking_histories.booking_date, INTERVAL +30 Day) as Date_ADD1,booking_histories.booking_date,booking_histories.id as id, users.first_Name as u_first_name,users.last_Name as u_last_name,users.email as u_email,specialist_private.first_name,specialist_private.last_name,specialist_private.email as spec_email,booking_histories.booking_price FROM `booking_histories` left join users on users.id= booking_histories.user_id left join specialist_private on specialist_private.id= booking_histories.specialist_id where booking_histories.booking_status=2 and  now() < DATE_ADD(booking_histories.booking_date, INTERVAL +30 Day)";
+  $sql = "SELECT now() as now,DATE_ADD(booking_histories.booking_date, INTERVAL +30 Day) as Date_ADD1,booking_histories.booking_date,booking_histories.id as id, users.first_Name as u_first_name,users.last_Name as u_last_name,users.email as u_email,specialist_private.first_name,specialist_private.last_name,specialist_private.email as spec_email,booking_histories.booking_price FROM `booking_histories` left join users on users.id= booking_histories.user_id left join specialist_private on specialist_private.id= booking_histories.specialist_id where booking_histories.booking_status=2  and  now() > DATE_ADD(booking_histories.booking_date, INTERVAL +30 Day)";
 
 
 
 $exe = $db->query($sql);
 $data1 = $exe->fetch_all(MYSQLI_ASSOC);
 
-  $sql = "SELECT now(),DATE_ADD(booking_histories.booking_date, INTERVAL +30 Day),booking_histories.booking_date,booking_histories.id as id, users.first_Name as u_first_name,users.last_Name as u_last_name,users.email as u_email,specialist_private.first_name,specialist_private.last_name,specialist_private.email as spec_email FROM `booking_histories` left join users on users.id= booking_histories.user_id left join specialist_private on specialist_private.id= booking_histories.specialist_id where booking_histories.booking_status=2 and  now() > DATE_ADD(booking_histories.booking_date, INTERVAL +30 Day)";
+  $sql1 = "SELECT now(),DATE_ADD(booking_histories.booking_date, INTERVAL +30 Day),booking_histories.booking_date,booking_histories.id as id, users.first_Name as u_first_name,users.last_Name as u_last_name,users.email as u_email,specialist_private.first_name,specialist_private.last_name,specialist_private.email as spec_email FROM `booking_histories` left join users on users.id= booking_histories.user_id left join specialist_private on specialist_private.id= booking_histories.specialist_id where booking_histories.booking_status=2  and  now() > DATE_ADD(booking_histories.booking_date, INTERVAL +30 Day)";
 
 
 
-$exe = $db->query($sql);
+$exe = $db->query($sql1);
 $data = $exe->fetch_all(MYSQLI_ASSOC);
 
 
-foreach ($data as $row){
+foreach ($data1 as $row){
 
 
 if(count($data)>0)
 {
 
- $sql1 = "update booking_histories set  booking_status=5 where id=".$row['id'];
+ //$sql1 = "update booking_histories set  booking_status=5 where id=".$row['id'];
 
-echo $sql1;
+// echo $sql1;
 
-$exe1 = $db->query($sql1);
+$exe1 = $db->query($sql);
 $data1 = $exe1->fetch_all(MYSQLI_ASSOC);
 
 }
@@ -105,19 +110,21 @@ if(isset($_GET['id']) && $_GET['id']!='')
                     <th style="width: 10px">#</th>
                     <th>Booking ID</th>
                     <th>User Email</th>
-                    
-                   
                     <th>User</th>
                     <th>Specialist List</th>
                     <th>Specialist</th>
                     <th>Day Remain to send </th>
                     <th>Amount Remain For Specialist</th>
+                     <th>Pay</th>
                   
 
                   </tr>
                 </thead>
                 <tbody>
                   <?php
+                  
+                //   echo "<pre>";
+                //   print_r($data1);
                   foreach ($data1 as $key =>  $item)
                   {
 
@@ -158,15 +165,28 @@ else
 }
 
  $end = $item['Date_ADD1'];
- $start = $item['now'];
+ $start = $item['booking_date'];
 $diff = (strtotime($end)- strtotime($start))/24/3600; 
 
+// $end = strtotime($item['Date_ADD1']);
+// $start = strtotime($item['now']);
+// $diff_in_seconds = $end - $start;
+// $diff = $diff_in_seconds / (24 * 3600);
+
+// $strat_date = new DateTime($item['Date_ADD1']);
+// $end_date = new DateTime($item['booking_date']);
+
+// $interval = $end_date->diff($start_date);
+
+// $diff = $interval->days;
 
 
+  
 
 echo '<td>'.round($diff).' Days </td>';
 
 echo '<td>'.$booking_price.'</td>';
+echo '<td>Pay to Specialist</td>';
 
 
 
