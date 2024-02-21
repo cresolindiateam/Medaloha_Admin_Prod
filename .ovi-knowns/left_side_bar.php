@@ -109,7 +109,7 @@ else if($_SERVER['PHP_SELF']=="/testimonial_list.php"){
 <aside class="main-sidebar">
     <section class="sidebar">
       <!-- Sidebar user panel -->
-      <div class="user-panel">
+      <div class="user-panel"> 
         <div class="image admin-img " style="">
          <a href="<?php echo $url = "http://".$_SERVER['HTTP_HOST'].'/index.php';?>">
           <img src="image/logo/medalogo.png" width="50%" />
