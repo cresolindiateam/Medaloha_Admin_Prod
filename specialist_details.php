@@ -40,7 +40,20 @@ if(isset($_GET['id']) && $_GET['id']!='')
 {
 //for overview
 $specialist_id= $_GET['id'];
-$sqlAdmin="SELECT specialist_public_intros.*,specialist_private.timezone,specialist_private.utc_offset_string FROM `specialist_public_intros` left join specialist_private on specialist_private.id=specialist_public_intros.specialist_id where specialist_public_intros.specialist_id=$specialist_id ";
+$sqlAdmin="SELECT specialist_public_intros.*,specialist_private.timezone,specialist_private.utc_offset_string,GROUP_CONCAT(specialist_overivew_details.consultation_id) AS consultation_id,cities.city_name,countries.country_name FROM `specialist_public_intros` 
+left join specialist_overivew_details on specialist_overivew_details.specialist_id=specialist_public_intros.specialist_id
+
+left join cities on cities.id=specialist_public_intros.city_id 
+left join countries on countries.id=specialist_public_intros.country_id 
+
+
+left join specialist_private on specialist_private.id=specialist_public_intros.specialist_id where specialist_public_intros.specialist_id=$specialist_id
+
+
+
+  group by specialist_public_intros.specialist_id";
+
+
 $exeAdmin = $db->query($sqlAdmin);
 $datapublicinfo = $exeAdmin->fetch_all(MYSQLI_ASSOC);
 
@@ -54,6 +67,10 @@ $datadegree = $exeAdmin->fetch_all(MYSQLI_ASSOC);
 $sqlAdmin1="SELECT replies.reply_desc,reviews.*,reviews.id as review_id,users.id as u_id,users.user_image as u_image,users.first_name as u_first_name,users.last_name as u_last_name,specialist_private.first_name,specialist_private.last_name,specialist_public_intros.profile_photo from reviews left join specialist_private on specialist_private.id=reviews.specialist_id left join specialist_public_intros on specialist_public_intros.specialist_id=reviews.specialist_id  left join users on users.id=reviews.user_id left join replies on replies.review_id=reviews.id where reviews.specialist_id=".$specialist_id." group by reviews.user_id";
 $exeAdmin = $db->query($sqlAdmin1);
 $datareview1 = $exeAdmin->fetch_all(MYSQLI_ASSOC);
+
+
+
+
 if(isset($_GET['limit']) && $_GET['limit']!='')
 {
 $sqlAdmin="SELECT replies.reply_desc,reviews.*,reviews.id as review_id,users.id as u_id,users.user_image as u_image,users.first_name as u_first_name,users.last_name as u_last_name,specialist_private.first_name,specialist_private.last_name,specialist_public_intros.profile_photo from reviews left join specialist_private on specialist_private.id=reviews.specialist_id left join specialist_public_intros on specialist_public_intros.specialist_id=reviews.specialist_id  left join users on users.id=reviews.user_id left join replies on replies.review_id=reviews.id where reviews.specialist_id=".$specialist_id." group by reviews.user_id";
@@ -329,7 +346,7 @@ $_SERVER['HTTP_HOST']='medalohaapi.cresol.in';
                       }
                       else
                       {
-                      echo $path1='https://'.$_SERVER['HTTP_HOST'].$port.'/public/uploads/docs/profileresize/'.$datapublicinfo[0]['profile_photo'];
+                      echo $path1='https:///medalohaapi.cresol.in/public/uploads/docs/'.$datapublicinfo[0]['profile_photo'];
                       }
                   ?>
                 " class="d-flex"><img src="
@@ -341,7 +358,7 @@ $_SERVER['HTTP_HOST']='medalohaapi.cresol.in';
                       }
                       else
                       {
-                      echo $path1='https://'.$_SERVER['HTTP_HOST'].$port.'/public/uploads/docs/profileresize/'.$datapublicinfo[0]['profile_photo'];
+                      echo $path1='https:///medalohaapi.cresol.in/public/uploads/docs/'.$datapublicinfo[0]['profile_photo'];
                       }
                   ?>
                 " class="img-fluid d-block w-100" alt="Specialist Image"></a>
@@ -645,18 +662,28 @@ echo $path='https://medalohaadmin.cresol.in/image/user/default_profile.png';
             <!-- Overview Content -->
             <?php
 
-          
+         
             if(count($datapublicinfo)>0){
-            foreach($datapublicinfo as $data){?>
+
+
+            foreach($datapublicinfo as $data){
+//               echo "<pre>"; 
+// print_r($data);
+
+$values = explode(',', $data['consultation_id']);
+              ?>
             <div role="tabpanel" id="doc_overview" class="tab-pane fade active  in">
               <div class="row">
                 <div class="col-md-12 col-lg-12">
                   <!-- Awards Details -->
                   <div class="widget awards-widget">
                     <h4 class="widget-title font-weight-bold">Consultation description</h4>
+                    
+<?php  
+if(in_array(1,$values)) {?>
                     <div style="display:flex;">
                       <div class="experience-box">
-                        <div class="widget-title font-weight-bold" style="color:#49b8ae;">Message:
+                        <div class="widget-title font-weight-bold" style="color:#49b8ae;">Chat:
                         </div>
                       </div>
                       <div class="experience-box">
@@ -665,9 +692,14 @@ echo $path='https://medalohaadmin.cresol.in/image/user/default_profile.png';
                         </p>
                       </div>
                     </div>
+                  <?php } ?>
+
+
+<?php  
+if(in_array(2,$values)){?>
                     <div style="display:flex;">
                       <div class="experience-box">
-                        <div class="font-weight-bold" style="color:#49b8ae;">Message PART: </div>
+                        <div class="widget-title font-weight-bold" style="color:#49b8ae;">Chat PART: </div>
                       </div>
                       <div class="experience-box">
                         <p style="margin-bottom:0rem!important">
@@ -675,6 +707,168 @@ echo $path='https://medalohaadmin.cresol.in/image/user/default_profile.png';
                         </p>
                       </div>
                     </div>
+<?php }?>
+
+
+<?php  
+if(in_array(3,$values)){?>
+
+                     <div style="display:flex;">
+                      <div class="experience-box">
+                        <div class="widget-title font-weight-bold" style="color:#49b8ae;">Chat FULL: </div>
+                      </div>
+                      <div class="experience-box">
+                        <p style="margin-bottom:0rem!important">
+                          &nbsp;<?php echo $data['consultation_description_message_full'];?>
+                        </p>
+                      </div>
+                    </div>
+<?php }?>
+
+
+<?php  
+if(in_array(7,$values)){?>
+
+
+                    <div style="display:flex;">
+                      <div class="experience-box">
+                        <div class="widget-title font-weight-bold" style="color:#49b8ae;">Audio: </div>
+                      </div>
+                      <div class="experience-box">
+                        <p style="margin-bottom:0rem!important">
+                          &nbsp;<?php echo $data['consultation_description_audio'];?>
+                        </p>
+                      </div>
+                    </div>
+
+<?php }?>
+
+<?php  
+if(in_array(8,$values)){?>
+
+                    <div style="display:flex;">
+                      <div class="experience-box">
+                        <div class="widget-title font-weight-bold" style="color:#49b8ae;">Audio PART: </div>
+                      </div>
+                      <div class="experience-box">
+                        <p style="margin-bottom:0rem!important">
+                          &nbsp;<?php echo $data['consultation_description_audio_part'];?>
+                        </p>
+                      </div>
+                    </div>
+<?php }?>
+
+<?php  
+if(in_array(9,$values)){?>
+
+                    <div style="display:flex;">
+                      <div class="experience-box">
+                        <div class="widget-title font-weight-bold" style="color:#49b8ae;">Audio FULL: </div>
+                      </div>
+                      <div class="experience-box">
+                        <p style="margin-bottom:0rem!important">
+                          &nbsp;<?php echo $data['consultation_description_audio_full'];?>
+                        </p>
+                      </div>
+                    </div>
+<?php }?>
+
+
+<?php  
+if(in_array(4,$values)){?>
+
+ <div style="display:flex;">
+                      <div class="experience-box">
+                        <div class="widget-title font-weight-bold" style="color:#49b8ae;">Video : </div>
+                      </div>
+                      <div class="experience-box">
+                        <p style="margin-bottom:0rem!important">
+                          &nbsp;<?php echo $data['consultation_description_video'];?>
+                        </p>
+                      </div>
+                    </div>
+
+<?php }?>
+
+<?php  
+if(in_array(5,$values)){?>
+
+                    <div style="display:flex;">
+                      <div class="experience-box">
+                        <div class="widget-title font-weight-bold" style="color:#49b8ae;">Video PART: </div>
+                      </div>
+                      <div class="experience-box">
+                        <p style="margin-bottom:0rem!important">
+                          &nbsp;<?php echo $data['consultation_description_video_part'];?>
+                        </p>
+                      </div>
+                    </div>
+<?php }?>
+
+<?php  
+if(in_array(6,$values)){?>
+
+
+                    <div style="display:flex;">
+                      <div class="experience-box">
+                        <div class="widget-title font-weight-bold" style="color:#49b8ae;">Video FULL: </div>
+                      </div>
+                      <div class="experience-box">
+                        <p style="margin-bottom:0rem!important">
+                          &nbsp;<?php  if($data['consultation_description_video_full']=='undefined'){ echo $data['consultation_description_video_full']; }?>
+                        </p>
+                      </div>
+                    </div>
+<?php }?>
+
+<?php  
+if(in_array(10,$values)){?>
+
+                     <div style="display:flex;">
+                      <div class="experience-box">
+                        <div class="widget-title font-weight-bold" style="color:#49b8ae;">Vivo : </div>
+                      </div>
+                      <div class="experience-box">
+                        <p style="margin-bottom:0rem!important">
+                          &nbsp;<?php echo $data['consultation_description_vivo'];?>
+                        </p>
+                      </div>
+                    </div>
+
+<?php }?>
+
+
+<?php  
+if(in_array(11,$values)){?>
+
+                    <div style="display:flex;">
+                      <div class="experience-box">
+                        <div class="widget-title font-weight-bold" style="color:#49b8ae;">Vivo PART: </div>
+                      </div>
+                      <div class="experience-box">
+                        <p style="margin-bottom:0rem!important">
+                          &nbsp;<?php echo $data['consultation_description_vivo_part'];?>
+                        </p>
+                      </div>
+                    </div>
+<?php }?>
+
+
+<?php  
+if(in_array(12,$values)){?>
+
+                    <div style="display:flex;">
+                      <div class="experience-box">
+                        <div class="widget-title font-weight-bold" style="color:#49b8ae;">Vivo FULL: </div>
+                      </div>
+                      <div class="experience-box">
+                        <p style="margin-bottom:0rem!important">
+                          &nbsp;<?php echo $data['consultation_description_vivo_full'];?>
+                        </p>
+                      </div>
+                    </div>
+
+                  <?php }?>
                   </div>
                   <!-- About Details -->
                   <div class="widget about-widget">
@@ -705,7 +899,7 @@ echo $path='https://medalohaadmin.cresol.in/image/user/default_profile.png';
                     <h4 class="widget-title font-weight-bold">Work &amp; Experience</h4>
                     <div class="experience-box">
                       <p>
-                        <?php echo $data['work_experience'];?>
+                        <?php echo $data['work_experience_detail'];?>
                       </p>
                     </div>
                   </div>
@@ -911,7 +1105,15 @@ echo $path='https://medalohaadmin.cresol.in/image/user/default_profile.png';
                   <div class="col-md-4">
                     <div class="clinic-timing">
                       <a href="" data-toggle="modal" data-target="#dview">
-                        <img src="http://<?php echo $_SERVER['HTTP_HOST'].$port;?>/public/uploads/docs/<?php echo $data1['document_file']; ?>" height="100" width="100" class="img-fluid border w-75"/>
+
+
+<?php if ($data1['document_file'] != '') { ?>
+    <img src="http://<?php echo $_SERVER['HTTP_HOST'] . $port; ?>/public/uploads/docs/<?php echo $data1['document_file']; ?>" height="100" width="100" class="img-fluid border w-75"/>
+<?php } else { ?>
+    <img src="https://medaloha.cresol.in/assets/images/noimg.jpg" height="100" width="100" class="img-fluid border w-75"/>
+<?php } ?>
+
+
                       </a>
                     </div>
                   </div>
@@ -960,21 +1162,28 @@ echo $path='https://medalohaadmin.cresol.in/image/user/default_profile.png';
                   <li>
                     <div class="comment">
                       <?php
+
+// echo "<pre>";
+// print_r($data1);
+
                       $path1='';
                       if($data1['profile_photo']=='')
                       {
-                      $path1='image\user\default_profile.png';
+                     
+
+                     $path1='https://medalohaadmin.cresol.in/image/user/default_profile.png';
+                    
                       }
                       else
                       {
-                      $path1='image\user\default_profile.png';
+                         $path1='https:///medalohaapi.cresol.in/public/uploads/docs/'.$data1['profile_photo'];
                       }
                       ?>
                       <img class="avatar avatar-sm rounded-circle" alt="User Image" src="<?php echo $path1;?>"/>
                       <div class="comment-body">
                         <div class="meta-data">
-                          <span class="comment-author"><?php  echo $data1['first_name']?>
-                            &nbsp;<?php  echo $data1['last_name']?>
+                          <span class="comment-author"><?php  echo $data1['u_first_name']?>
+                            &nbsp;<?php  echo $data1['u_last_name']?>
                           </span>
                           <span class="comment-date">Nov 2020, Message Consultation
                           </span>
@@ -1006,24 +1215,34 @@ echo $path='https://medalohaadmin.cresol.in/image/user/default_profile.png';
                       </div>
                     </div>
                     <!-- Comment Reply -->
-                    <ul class="comments-reply">
+                    <ul class="comments-reply test">
                       <li>
                         <div class="comment">
                           <?php
+
+// echo "<pre>";
+// print_r($data1);
+// https://medalohaapi.cresol.in/public/uploads/profile/1708326149694-Koala.jpg
+
                           $path='';
                           if($data1['u_image']=='')
                           {
-                          $path='image\user\default_profile.png';
+                          
+                           $path1='https://medalohaadmin.cresol.in/image/user/default_profile.png';
+                    
                           }
                           else
+
                           {
-                          $path='';
+                            
+                    
+                         $path1='https:///medalohaapi.cresol.in/public/uploads/profile/'.$data1['u_image'];
                           }
                           ?>
-                          <img class="avatar avatar-sm rounded-circle" alt="User Image" src="<?php  echo $path;?>">
+                          <img class="avatar avatar-sm rounded-circle" alt="User Image" src="<?php  echo $path1;?>">
                           <div class="comment-body">
                             <div class="meta-data">
-                              <span class="comment-author"><?php echo $data1['u_first_name']; ?>&nbsp; <?php echo $data1['u_last_name']; ?></span>
+                              <span class="comment-author"><?php echo $data1['first_name']; ?>&nbsp; <?php echo $data1['last_name']; ?></span>
                               <span class="comment-date">Specialist</span>
                             </div>
                             <p class="comment-content">
@@ -1135,10 +1354,23 @@ echo $path='https://medalohaadmin.cresol.in/image/user/default_profile.png';
                     <div class="widget-content">
                       <h3>Location </h3><hr>
                       <div class="doc-info-cont">
-                        
-                        <p class="doc-speciality"><?php echo $data2['holistic_center']; ?></p>
+                        <h4 class="doc-name"><?php echo $data2['holistic_center']; ?></h4>
+                        <p class="doc-speciality"><?php echo $data2['holistic_location'];?></p>
                         <div class="clinic-details">
-                          <p class="doc-location mb-2"><i class="fas fa-map-marker-alt"></i> <?php echo $data2['holistic_location']; ?>-<a href="" class="text-info font-weight-bold">Get Direction</a>
+
+                          <p class="doc-location mb-2"><i class="fas fa-map-marker-alt"></i> <?php echo $data2['city_name'].','.$data2['country_name']; ?>-
+<?php 
+$city = !empty($data2['city_name']) ? $data2['city_name'] : "";
+$country = !empty($data2['country_name']) ? $data2['country_name'] : "";
+$mapUrl = '';
+
+if (!empty($country) || !empty($city)) {
+    $mapUrl = 'https://www.google.com/maps?q=' . urlencode($city) . ',' . urlencode($country);
+}
+?>
+
+<a href="<?php echo $mapUrl;?>" class="text-info font-weight-bold">Get Direction</a>
+
                         </p>
                         <ul class="clinic-gallery">
                           <li>
@@ -1289,24 +1521,42 @@ echo $path='https://medalohaadmin.cresol.in/image/user/default_profile.png';
                         <div class="listing-day current">
                           <h3>Working Time
                           <span class="h6">(Specialist’s Time Zone)</span></h3></div>
-                         
+        
+
+
+
+
+
 <?php  
 
 //echo $data2['working_time'];
 
 //$data12=explode('-',$data2['working_time']); 
-
+if (!empty($data2['working_time'])) {
+    $workingTimes = explode('||', $data2['working_time']);
+    foreach ($workingTimes as $datat) 
 
 
 {?>
                           <div class="listing-day">
-                            <div class="day">  <?php echo $data2['working_time'];?> 
+                            <div class="day"> 
+                            <?php echo ($datat != 'null' && strlen($datat) > 0) ? substr($datat, 0, strpos($datat, '-')) : ''; ?>
+
+
+
+
                             </div>
-                          <!--   <div class="time-items">
-                              <span class="time"><?php //echo $data12[1];?>  - <?php //echo $data12[2];?></span>
-                            </div> -->
+
+<div class="time-items">
+                <span class="time"><?php echo ($datat != 'null' && strlen($datat) > 0) ? substr($datat, strpos($datat, '-') + 1) : ""; ?></span>
+            </div>
+
+
+
+                            
+                         
                           </div>
-<?php }?>
+<?php } }?>
 
                         </div>
                         <hr>
