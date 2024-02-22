@@ -334,11 +334,11 @@ width: 52%;
 
       if($item['status']==2){
        
-          echo "<span class='badge badge-pending'><a href='?type=status&operation=deactive&id=".$item['id']."'>Deactive</a></span>&nbsp;";
+          echo "<span class='badge badge-complete'><a href='?type=status&operation=deactive&id=".$item['id']."'>Active</a></span>&nbsp;";
       }else  if($item['status']==0) {
 
 
-         echo "<span class='badge badge-complete'><a href='?type=status&operation=active&id=".$item['id']."'>Active</a></span>&nbsp;";
+         echo "<span class='badge badge-pending'><a href='?type=status&operation=active&id=".$item['id']."'>Deactive</a></span>&nbsp;";
      
 
       }
