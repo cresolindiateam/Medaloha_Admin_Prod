@@ -280,18 +280,32 @@ $datareview = $exeAdmin->fetch_all(MYSQLI_ASSOC);
       }
       
       }
-      $sql = "SELECT specialist_private.*,specialist_public_intros.status as status FROM `specialist_private` left join specialist_public_intros on specialist_public_intros.specialist_id=specialist_private.id
+      $sql = "SELECT specialist_private.*,specialist_private.status as status FROM `specialist_private` left join specialist_public_intros on specialist_public_intros.specialist_id=specialist_private.id
 
        where 1 and specialist_private.id=".$_GET['id']." group by specialist_private.id";
       $exe = $db->query($sql);
       $data = $exe->fetch_all(MYSQLI_ASSOC);
       foreach ($data as $key =>  $item)
       {
-      if($item['status']==1){
-      echo "<span class='badge badge-complete'><a href='?type=status&operation=disable&spec_email=".$item['email']."&id=".$item['id']."'>Enable</a></span>&nbsp;";
-      }else{
-      echo "<span class='badge badge-pending'><a href='?type=status&operation=enable&spec_email=".$item['email']."&id=".$item['id']."'>Disable</a></span>&nbsp;";
-      }
+      // if($item['status']==1){
+      // echo "<span class='badge badge-complete'><a href='?type=status&operation=disable&spec_email=".$item['email']."&id=".$item['id']."'>Enable</a></span>&nbsp;";
+      // }else{
+      // echo "<span class='badge badge-pending'><a href='?type=status&operation=enable&spec_email=".$item['email']."&id=".$item['id']."'>Disable</a></span>&nbsp;";
+      // }
+
+
+
+  if($item['status']==4)
+                  {
+                  echo "<span class='badge badge-complete'><a href='?type=status&operation=enable&spec_email=".$item['email']."&id=".$item['id']."'>Publish</a></span>&nbsp;";
+                  }else if($item['status']==6){
+                  echo "<span class='badge badge-complete'><a href='?type=status&operation=disable&spec_email=".$item['email']."&id=".$item['id']."'>Enable</a></span>&nbsp;";
+                  }
+
+                  else if($item['status']==7){
+                  echo "<span class='badge badge-pending'><a href='?type=status&operation=enable&spec_email=".$item['email']."&id=".$item['id']."'>Disable</a></span>&nbsp;";
+                  }
+      
       }
       ?>
     </span>

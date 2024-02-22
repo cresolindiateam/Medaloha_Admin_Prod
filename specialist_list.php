@@ -490,10 +490,15 @@ echo '</td>';
                   <?php
 
                  
-                  if($item['status']==4){
+                  if($item['status']==4)
+                  {
                   echo "<span class='badge badge-complete'><a href='?type=status&operation=enable&spec_email=".$item['email']."&id=".$item['id']."'>Publish</a></span>&nbsp;";
                   }else if($item['status']==6){
-                  echo "<span class='badge badge-pending'><a href='?type=status&operation=disable&spec_email=".$item['email']."&id=".$item['id']."'>Block</a></span>&nbsp;";
+                  echo "<span class='badge badge-complete'><a href='?type=status&operation=disable&spec_email=".$item['email']."&id=".$item['id']."'>Enable</a></span>&nbsp;";
+                  }
+
+                  else if($item['status']==7){
+                  echo "<span class='badge badge-pending'><a href='?type=status&operation=enable&spec_email=".$item['email']."&id=".$item['id']."'>Disable</a></span>&nbsp;";
                   }
 
                   ?>
