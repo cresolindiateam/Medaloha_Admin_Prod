@@ -14,7 +14,7 @@ mysqli_query($db,$update_status_sql);
 //status 2 for all
 $status=2;
 $sql = " SELECT booking_histories.id,booking_histories.booking_date,booking_histories.session_date,
-booking_histories.booking_price,booking_histories.legend_id,booking_histories.user_id,booking_histories.specialist_id,booking_histories.id as booking_history_id,specialist_public_intros.status as status,booking_histories.booking_status  FROM `booking_histories` left join specialist_public_intros on specialist_public_intros.specialist_id=booking_histories.specialist_id  where 1";
+booking_histories.booking_price,booking_histories.legend_id,booking_histories.user_id,booking_histories.specialist_id,booking_histories.id as booking_history_id,specialist_private.status as status,booking_histories.booking_status  FROM `booking_histories` left join specialist_private on specialist_private.id=booking_histories.specialist_id  where 1";
 if(isset($_POST['status']) && $_POST['status']!='')
 {
 $status=$_POST['status'];
@@ -25,18 +25,18 @@ if($status==2)
 $sql.= "";
 }
 else{
-$sql.= "  and specialist_public_intros.status=".$status;
+$sql.= " and (booking_histories.booking_status =1 or booking_histories.booking_status =4 or booking_histories.booking_status =3)   and specialist_private.status=6";
 }
 }
 else
 {
-$sql.= " and (booking_histories.booking_status =1 or booking_histories.booking_status =4 or booking_histories.booking_status =3)   and specialist_public_intros.status=".$status;
+$sql.= " and specialist_private.status!=6";
 }
 }
 else
 {
 $sql = "SELECT booking_histories.id,booking_histories.booking_date,booking_histories.session_date,
-booking_histories.booking_price,booking_histories.legend_id,booking_histories.user_id,booking_histories.specialist_id,booking_histories.id as booking_history_id,specialist_public_intros.status as status,booking_histories.booking_status FROM `booking_histories` left join specialist_public_intros on specialist_public_intros.specialist_id=booking_histories.specialist_id  where 1";
+booking_histories.booking_price,booking_histories.legend_id,booking_histories.user_id,booking_histories.specialist_id,booking_histories.id as booking_history_id,specialist_private.status as status,booking_histories.booking_status FROM `booking_histories` left join specialist_private on specialist_private.id=booking_histories.specialist_id  where 1";
 }
 $sql.=" ORDER By booking_histories.id DESC";
 
@@ -347,7 +347,7 @@ margin-left: 20px;
                       ';
                       
                       /* echo $status;*/
-                      if($status==1){
+                      if($status==0){
                       if($item['booking_status']==1 || $item['booking_status']==4 ){
                       ?>
                       <form name="disable_spec_admin_book_status_form" method="post" >
@@ -377,9 +377,9 @@ margin-left: 20px;
                         if($item['booking_status']==2){
                         echo  '<button type="button" class="btn theme-btn " onClick="invoice('.$item['booking_history_id'].')">Create Invoice<i class="fa fa-plus-circle"></i></button>';
                         }
-                        if($item['booking_status']==3){
-                        echo  '<button type="button" class="btn open-ClientDialog " onClick="refund('.$item['booking_history_id'].');" >Refund</button>';
-                        }
+                        // if($item['booking_status']==3){
+                        // echo  '<button type="button" class="btn open-ClientDialog " onClick="refund('.$item['booking_history_id'].');" >Refund</button>';
+                        // }
                         }
                       echo '</td>';
                       
