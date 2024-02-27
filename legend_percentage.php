@@ -93,7 +93,7 @@ mysqli_query($db,$update_status_sql);
                   {
                   echo'<td>In Person</td>';
                   }
-                  echo'<td><input  class="form-control" value='.$item['commission_percentage'].' type ="text" name="legend['.$id.'][]" placeholder="legend_percentage"></td>';
+                  echo'<td><input id="numberOnlyInput" class="form-control" value='.$item['commission_percentage'].' type ="text" name="legend['.$id.'][]" placeholder="legend_percentage"></td>';
                   
                   ?>
                   <?php } ?>
@@ -114,7 +114,27 @@ mysqli_query($db,$update_status_sql);
 </div>
 <!-- ./wrapper -->
 <?php include('footer.php'); ?>
+
+
+  
 <script>
+        window.onload = function() {
+            const numberOnlyInput = document.getElementById('numberOnlyInput');
+
+            numberOnlyInput.addEventListener('input', function(e) {
+                // Replace non-digit characters with an empty string
+                this.value = this.value.replace(/\D/g, '');
+            });
+        };
+    </script>
+
+
+
+<script>
+
+
+
+
 $('#language').on('change', function() {
 document.forms['language_form'].submit();
 });

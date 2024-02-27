@@ -167,11 +167,13 @@ if(isset($_POST['option']) && $_POST['option']!='' && $_POST['option']==2)
                 else
                 {?>
                 <th >Message</th>
+
                 <?php }
 
 
                 ?>
 
+<th >Created At</th>
               </tr>
             </thead>
             <tbody>
@@ -190,6 +192,7 @@ if(isset($_POST['option']) && $_POST['option']!='' && $_POST['option']==2)
                 echo'<td>'.$count.'</td>';
                 echo'<td>'.$item['name'].'</td>';
                 echo'<td>'.$item['email'].'</td>';
+                echo'<td>'.$item['created_at'].'</td>';
               
               
                 
@@ -208,6 +211,8 @@ if(isset($_POST['option']) && $_POST['option']!='' && $_POST['option']==2)
                 echo'<td>'.$item['name'].'</td>';
                 echo'<td>'.$item['email'].'</td>';
                 echo'<td>'.$item['message'].'</td>';
+                echo'<td>'.$item['created_at'].'</td>';
+              
               
                 
                  } }

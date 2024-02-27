@@ -4,7 +4,7 @@ require 'function.php';
 session_start();
 $db=db_connect();
 $case_array = array();
-$sql = "SELECT report.id as id,report.report_issue,report.report_to,report.email as email,users.first_Name as u_first_name,users.last_Name as u_last_name,specialist_private.first_name,specialist_private.last_name FROM `report` left join users on users.id= report.user_id left join specialist_private on specialist_private.id= report.specialist_id";
+$sql = "SELECT medaloha_reports.id as id,medaloha_reports.message as report_issue,users.first_Name as u_first_name,users.last_Name as u_last_name,specialist_private.first_name,specialist_private.last_name,medaloha_reports.created_at FROM `medaloha_reports` left join users on users.id= medaloha_reports.user_id left join specialist_private on specialist_private.id= medaloha_reports.specialist_id";
 $exe = $db->query($sql);
 $data = $exe->fetch_all(MYSQLI_ASSOC);
 if(isset($_GET['type']) && $_GET['type']!='')
@@ -61,11 +61,12 @@ $datapublicinfo = $exeAdmin->fetch_all(MYSQLI_ASSOC);
               <tr>
                 <th style="width: 10px">#</th>
                 <th>Report ID</th>
-                <th>Email</th>
+                <!-- <th>Email</th> -->
                 <th>Report Message</th>
-                <th>Report To</th>
+                <!-- <th>Report To</th> -->
                 <th>User</th>
                 <th>Specialist</th>
+                <th>Created At</th>
                 
               </tr>
             </thead>
@@ -78,17 +79,17 @@ $datapublicinfo = $exeAdmin->fetch_all(MYSQLI_ASSOC);
               echo'<tr>';
                 echo'<td>'.$count.'</td>';
                 echo'<td>'.$item['id'].'</td>';
-                echo'<td>'.$item['email'].'</td>';
+                // echo'<td>'.$item['email'].'</td>';
                 echo'<td>'.$item['report_issue'].'</td>';
                 
-                if($item['report_to']==0)
-                {
-                echo'<td> User </td>';
-                }
-                if($item['report_to']==1)
-                {
-                echo'<td> Specialist </td>';
-                }
+                // if($item['report_to']==0)
+                // {
+                // echo'<td> User </td>';
+                // }
+                // if($item['report_to']==1)
+                // {
+                // echo'<td> Specialist </td>';
+                // }
                 if($item['u_first_name']!='')
                 {
                 echo'<td>'.$item['u_first_name'].' '.$item['u_last_name'].'</td>';
@@ -106,6 +107,8 @@ $datapublicinfo = $exeAdmin->fetch_all(MYSQLI_ASSOC);
                 {
                 echo'<td>-</td>';
                 }
+
+                echo'<td>'.$item['created_at'].'</td>';
                 ?>
                 <?php } ?>
               </tbody>
