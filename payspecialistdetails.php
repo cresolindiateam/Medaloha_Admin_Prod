@@ -2,11 +2,11 @@
 require 'dbconfig.php';
 require 'function.php';
 
-// Enable error reporting for all errors
+//Enable error reporting for all errors
 // error_reporting(E_ALL);
 
-// Display errors on the page (only for development, not for production)
-// ini_set('display_errors', 1);
+//Display errors on the page (only for development, not for production)
+//ini_set('display_errors', 1);
 
 $fullurl = "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 $url = "http://".$_SERVER['HTTP_HOST'].'/admin_login.php';
@@ -101,26 +101,32 @@ if ($db->query($query) === TRUE) {
   
 }
 
-$specialist_id='';
-if(isset($_GET['specialistid']) && $_GET['specialistid']!='')
-{
- $specialist_id= $_GET['specialistid'];
- $pending_status='0';
- $sqlAdmin="SELECT payment_status FROM `specialist_transaction_from_medaloha` where specialist_id=$specialistid";
- $exeAdmin = $db->query($sqlAdmin);
- $data = $exeAdmin->fetch_all(MYSQLI_ASSOC);
- $pending_status =$data[0]['pending_status'];
+$specialist_id = '';
+if(isset($_GET['specialistid']) && $_GET['specialistid'] != '') {
+    $specialist_id = $_GET['specialistid'];
+    $pending_status = '0';
 
- if($pending_status==0)
- {
-  $pending_status='Pending';
- }
- else
- {
-  $pending_status='Paid';
- }
+    // Use prepared statements to prevent SQL injection
+    $sqlAdmin = "SELECT payment_status,transaction_id FROM `specialist_transaction_from_medaloha` WHERE specialist_id = ?";
+    $stmt = $db->prepare($sqlAdmin);
+    $stmt->bind_param("i", $specialist_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if($result->num_rows > 0) {
+        $data = $result->fetch_all(MYSQLI_ASSOC);
+        $pending_status = ($data[0]['payment_status'] == 0) ? '0' : '1';
+       
+    }
+
+    // Close the statement and the database connection
+    $stmt->close();
+    $db->close();
 }
 
+// echo $pending_status;
+
+// echo "ajay";
 
 ?>
 <?php include('header.php');?>
@@ -183,14 +189,14 @@ if(isset($_GET['specialistid']) && $_GET['specialistid']!='')
         <!-- Pending -->
 <?php //echo $pending_status?>
         <select name="status">
-          <option value="0"  >Pending</option>
-          <option value="1" >Paid</option>
+          <option value="0"  <?php if($pending_status==0){echo 'selected';}?>>Pending</option>
+          <option value="1" <?php if($pending_status==1){echo 'selected';}?> >Paid</option>
         </select>
 
         <br>
 
          <label for="transactionid">Transaction Id:</label>
-        <input type="text" class="form-control"  id="transactionid" name="transactionid" placeholder="Transaction Id" required  value="<?php if(isset($_GET['transactionid']) && $_GET['transactionid']!='') { echo $_GET['transactionid'];}?>">
+        <input type="text" class="form-control"  id="transactionid" name="transactionid" placeholder="Transaction Id" required  value="<?php if($data[0]['transaction_id']!='') { echo $data[0]['transaction_id'];}?>">
         
         <br>
 

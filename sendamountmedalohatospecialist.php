@@ -17,14 +17,14 @@ $db=db_connect();
 $case_array = array();
 
 
-  $sql = "SELECT now() as now,DATE_ADD(booking_histories.booking_date, INTERVAL +30 Day) as Date_ADD1,booking_histories.booking_date,booking_histories.id as id, users.first_Name as u_first_name,users.last_Name as u_last_name,users.email as u_email,specialist_private.first_name,specialist_private.last_name,specialist_private.email as spec_email,booking_histories.booking_price FROM `booking_histories` left join users on users.id= booking_histories.user_id left join specialist_private on specialist_private.id= booking_histories.specialist_id where booking_histories.booking_status=2  and  now() > DATE_ADD(booking_histories.booking_date, INTERVAL +30 Day)";
+  $sql = "SELECT now() as now,DATE_ADD(booking_histories.booking_date, INTERVAL +30 Day) as Date_ADD1,booking_histories.booking_date,booking_histories.id as id, users.first_Name as u_first_name,users.last_Name as u_last_name,users.email as u_email,specialist_private.first_name,specialist_private.last_name,specialist_private.email as spec_email,booking_histories.booking_price FROM `booking_histories` left join users on users.id= booking_histories.user_id left join specialist_private on specialist_private.id= booking_histories.specialist_id where booking_histories.booking_status=2";
 
 
 
 $exe = $db->query($sql);
 $data1 = $exe->fetch_all(MYSQLI_ASSOC);
 
-  $sql1 = "SELECT now(),DATE_ADD(booking_histories.booking_date, INTERVAL +30 Day),booking_histories.booking_date,booking_histories.id as id, users.first_Name as u_first_name,users.last_Name as u_last_name,users.email as u_email,specialist_private.first_name,specialist_private.last_name,specialist_private.email as spec_email FROM `booking_histories` left join users on users.id= booking_histories.user_id left join specialist_private on specialist_private.id= booking_histories.specialist_id where booking_histories.booking_status=2  and  now() > DATE_ADD(booking_histories.booking_date, INTERVAL +30 Day)";
+  $sql1 = "SELECT now(),DATE_ADD(booking_histories.booking_date, INTERVAL +30 Day),booking_histories.booking_date,booking_histories.id as id, users.first_Name as u_first_name,users.last_Name as u_last_name,users.email as u_email,specialist_private.first_name,specialist_private.last_name,specialist_private.email as spec_email FROM `booking_histories` left join users on users.id= booking_histories.user_id left join specialist_private on specialist_private.id= booking_histories.specialist_id where booking_histories.booking_status=2";
 
 
 
